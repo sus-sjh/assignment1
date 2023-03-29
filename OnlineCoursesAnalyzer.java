@@ -10,7 +10,6 @@ import java.util.*;
  * based on this demo, or implement it in a different way.
  */
 public class OnlineCoursesAnalyzer {
-
     List<Course> courses = new ArrayList<>();
 
     public OnlineCoursesAnalyzer(String datasetPath) {
@@ -43,8 +42,6 @@ public class OnlineCoursesAnalyzer {
         }
     }
 
-    /*This method returns a <institution, count> map, where the key is the institution while the value is the total number of participants who have accessed the courses of the institution.
-    The map should be sorted by the alphabetical order of the institution.*/
     public Map<String, Integer> getPtcpCountByInst() {
 
         Map<String, Integer> map = new TreeMap<>();
@@ -60,13 +57,7 @@ public class OnlineCoursesAnalyzer {
         return map;
     }
 
-    //2
-    /*This method returns a <institution-course Subject, count> map, where the key is the string
-    concatenating the Institution and the course Subject (without quotation marks) using '-' while the value is
-    the total number of participants in a course Subject of an institution.
-    The map should be sorted by descending order of count (i.e., from most to least participants). If two
-    participants have the same count, then they should be sorted by the alphabetical order of the
-    institution-course Subject. */
+
     public Map<String, Integer> getPtcpCountByInstAndSubject() {
 
 
@@ -99,19 +90,7 @@ public class OnlineCoursesAnalyzer {
         }
         return sortedMap;
     }
-
-    //3
-    /*An instructor may be responsible for multiple courses, including independently responsible courses and codeveloped courses.
-     This method returns a <Instructor, [[course1, course2,...],[coursek,coursek+1,...]]>
-    map, where the key is the name of the instructor (without quotation marks) while the value is a list
-    containing 2-course lists, where List 0 is the instructor's independently responsible courses, if s/he has no
-    independently responsible courses, this list also needs to be created, but with no elements. List 1 is the
-    instructor's co-developed courses, if there are no co-developed courses, do the same as List 0. Note that
-    the course title (without quotation marks) should be sorted by alphabetical order in the list, and the case of
-    identical names should be treated as the same person.
-     */
     public Map<String, List<List<String>>> getCourseListOfInstructor() {
-
         Map<String, List<List<String>>> map = new TreeMap<>();
         for (Course course : courses) {
             String[]instructor = course.instructors.split(", ");
@@ -171,15 +150,6 @@ public class OnlineCoursesAnalyzer {
         return map;
     }
 
-    //5
-    /*This method returns the top K courses (parameter topK) by the given criterion (parameter by). Specifically,
-    *by="hours": the results should be courses sorted by descending order of Total Course Hours
-    (Thousands) (from the longest course to the shortest course).
-    *by="participants": the results should be courses sorted by descending order of the number of
-    the Participants (Course Content Accessed) (from the most to the least).
-    Note that the results should be a list of Course titles. If two courses have the same total Course hours or
-    participants, then they should be sorted by alphabetical order of their titles. The same course title can only
-    occur once in the list */
     public List<String> getCourses(int topK, String by) {
 
         // sort the courses in the desired order
@@ -214,16 +184,6 @@ public class OnlineCoursesAnalyzer {
         }
         return list;
     }
-
-    //5
-    /*This method searches courses based on three criteria:
-    *courseSubject: Fuzzy matching is supported and case insensitive. If the inputcourseSubject is
-    "science", all courses whose course subject includes "science" or "Science" or whatever (case
-    insensitive) meet the criteria.
-    *percentAudited: the percent of the audited should >= percentAudited
-    *totalCourseHours: the Total Course Hours (Thousands) should <= totalCourseHours
-    Note that the results should be a list of course titles that meet the given criteria, and sorted by alphabetical
-    order of the titles. The same course title can only occur once in the list. */
     public List<String> searchCourses(String courseSubject, double percentAudited, double totalCourseHours) {
         List<String> list = new ArrayList<>();
         for (Course course : courses) {
@@ -237,23 +197,6 @@ public class OnlineCoursesAnalyzer {
         return list;
     }
 
-    //6
-    /*This method recommends 10 courses based on the following input parameter:
-    age: age of the user
-    gender: 0-female, 1-male
-    isBachelorOrHigher: 0-Not get bachelor degree, 1- Bachelor degree or higher
-    First, calculate the average Median Age, average % Male, and average % Bachelor's Degree or
-    Higher for each course. Note that Course Number is the unique id of each course;
-    Secondly, the following formula:
-    $similarity value= (age -average Median Age)^2 + (gender100 - average Male)^2 + (isBachelorOrHigher100
-    - average Bachelor's Degree or Higher)^2$
-    is used to calculate the similarity between the characteristics of the input user and the characteristics of
-    each course's participants. The higher the similarity, the smaller the value;
-    Finally, return the top 10 courses with the smallest similarity value.
-    Note that the results should be a list of course titles. A Course Number may correspond to different
-    course titles, please return the course title with the latest Launch Date and the same course
-    title can only occur once in the list. The courses should be sorted by their similarity values. If two courses
-    have the same similarity values, then they should be sorted by alphabetical order of their titles. */
     public List<String> recommendCourses(int age, int gender, int isBachelorOrHigher) {
         List<String> recommendedCourses = new ArrayList<>();
         Map<String, Double> similarityMap = new HashMap<>();
